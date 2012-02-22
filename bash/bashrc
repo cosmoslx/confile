@@ -1,0 +1,27 @@
+#---- alias -----
+[ -f ~/.bash_keys ]&& source ~/.bash_keys
+
+#---- bash completion -----
+[ -f /etc/profile.d/bash-completion.sh ]&&source /etc/profile.d/bash-completion.sh
+
+#---- thinkpad trackpoint scrolling -----
+#[ -f ~/.trackPointScrolling ]&& source ~/.trackPointScrolling
+
+#---- history -----
+HISTSIZE=99999
+HISTFILESIZE=999999
+HISTCONTROL=erasedups
+shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+
+#---- forbided ----
+#source /home/cosmoslx/github/z.git/z.sh
+#export EDITOR="/usr/bin/vim"
+#alias ls='ls -F --color'
+#alias la='ls -a'
+#alias l='ls -l'
+#alias e='emerge -av'
+#alias ep='emerge -pv'
+
+# Load RVM into a shell session *as a function*
+[[ -s "/home/cosmoslx/.rvm/scripts/rvm" ]] && source "/home/cosmoslx/.rvm/scripts/rvm" 

@@ -1,0 +1,19 @@
+alias ls='ls -F --color'
+alias la='ls -a'
+alias lr='ls -R'
+alias l='ls -l'
+alias e='emerge -av'
+alias s='sudo'
+alias ep='emerge -pv'
+alias eq='equery'
+alias s:='cd /mnt/s'
+alias b:='cd /mnt/b'
+alias x='startx'
+#alias cd='pushd >/dev/null'
+#alias cb='popd >/dev/null'
+alias m='make'
+alias r='sudo su'
+alias g='git'
+
+
+

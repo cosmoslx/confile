@@ -1,0 +1,2 @@
+[ -f ~/.bash_keys ]&&source ~/.bash_keys
+
