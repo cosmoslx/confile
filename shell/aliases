@@ -1,0 +1,22 @@
+alias ls='ls -F --color'
+alias la='ls -a'
+alias lr='ls -R'
+alias l='ls -l'
+alias e='emerge -av'
+alias s='sudo'
+alias ep='emerge -pv'
+alias eq='equery'
+alias x='startx'
+alias m='make'
+alias r='sudo su'
+alias g='git'
+
+alias rm!="/bin/rm -vi"
+#alias rm=trash
+alias lstrash="trash-list | sort -k1,2"
+alias ls="ls -F --group-directories-first --color"
+alias tree="tree -C"
+alias v="vagrant"
+
+#alias cd='pushd >/dev/null'
+#alias cb='popd >/dev/null'

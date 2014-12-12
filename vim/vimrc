@@ -17,6 +17,15 @@
 "	general setting 
 "--------------------------------------
 
+" gui no toolbar show
+"set go-=T
+
+"set encoding=gbk
+"let &termencoding=&encoding
+"set fileencodings=utf-8,gbk,utf-16,big5
+"set colorcolumn=80
+set fileencodings=utf-8,chinese,utf-16,big5
+
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -24,18 +33,24 @@ set nocompatible
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
+" let cursor always in middle
+" set scrolloff=999
+
 " do not keep a backup file, use versions instead
 set nobackup
-
+set notimeout
+set nottimeout
 set ruler	
 set history=5000
 set showcmd	
 set incsearch		
-set number
+set wrap
+"set number
 set guifont=Droid\ Sans\ Mono\ Slashed\ 13
 set path=.,/usr/include
 set tabstop=4
 set shiftwidth=4    " indent width
+set expandtab		" always replace tab to space
 set autoindent		" always set autoindenting on
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -98,12 +113,14 @@ let mapleader=","
 vnoremap * y/<C-R>"<CR>
 vnoremap # y?<C-R>"<CR>
 
-nmap <SPACE> <C-f>
-"map <C-j> gt
-map <C-k> gT
-"imap <leader>c <ESC>:RopeCodeAssist<cr>
-nmap t <Esc>:tabnew 
+nmap <C-j> gt
+nmap <C-k> gT
+imap <C-j> <ESC>gt
+imap <C-k> <ESC>gT
 
+"imap <leader>c <ESC>:RopeCodeAssist<cr>
+nmap <SPACE> <C-f>
+nmap t <Esc>:tabnew 
 nmap <leader>p "+p
 "nmap <leader>f _f
 "nmap <leader>F _F
@@ -114,18 +131,18 @@ nmap <leader>g :Git
 nmap <leader>t :tag 
 nmap <leader>ev :tabnew ~/.vimrc <cr>
 nmap <leader>s :source ~/.vimrc
-nmap <leader>id :read !date <cr>
+nmap <leader>id <ESC>:read !date<cr>
 
 nmap <silent> <F2> :MRU <cr>
+nmap <F3> :NeoComplCacheToggle <cr>
 nmap <silent> <F4> :call Create_tags() <cr>
+nmap <silent> <F5> :TagbarToggle <cr>
+" nmap <silent> <F5> :Tlist <cr>
+nmap <silent> <F6> :Ex <cr>
 function Create_tags()
 	!ctags -R --c-kinds=+p --fields=+iaS --extra=+q *
 	!cscope -Rbq 
 endfunc
-
-" nmap <silent> <F5> :Tlist <cr>
-nmap <silent> <F5> :TagbarToggle <cr>
-nmap <silent> <F6> :Ex <cr>
 
 " ----- fugitive mapping ------
 	nmap <leader>gs :Gstatus <cr>
@@ -149,50 +166,86 @@ nmap <silent> <F6> :Ex <cr>
 "--------------------------------------
 "	VAM 
 "--------------------------------------
-set rtp+=~/.vim/vim-addons/vim-addon-manager
+" ### auto setup VAM
+fun! SetupVAM()
+  let c = get(g:, 'vim_addon_manager', {})
+  let g:vim_addon_manager = c
+  let c.plugin_root_dir = expand('$HOME', 1) . '/.vim/vim-addons'
+
+  " Force your ~/.vim/after directory to be last in &rtp always:
+  " let g:vim_addon_manager.rtp_list_hook = 'vam#ForceUsersAfterDirectoriesToBeLast'
+
+  " most used options you may want to use:
+  " let c.log_to_buf = 1
+  " let c.auto_install = 0
+  let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
+  if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
+    execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
+        \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+  endif
+
+  " This provides the VAMActivate command, you could be passing plugin names, too
+  "call vam#ActivateAddons([], {})
+endfun
+
+call SetupVAM()
+
+"set rtp+=~/.vim/vim-addons/vim-addon-manager
+"call vam#Scripts("confiles/vim/vim_plugins", {'tag_regex': '.*'})
 
 " cosmoslx's plugins list
 let cosmoslx_plugins = [
-	\ 'surround',
-	\ 'gitv',
-	\ 'vimwiki',
-	\ 'The_NERD_Commenter',
-	\ 'VOoM',
-	\ 'repeat',
-	\ 'github:altercation/vim-colors-solarized',
-	\ 'ZenCoding',
-	\ 'snipmate',
-	\ 'snipmate-snippets',
-	\ 'Mark%2666',
-	\ 'delimitMate',
-	\ 'Better_CSS_Syntax_for_Vim',
-	\ 'EasyMotion',
-	\ 'arpeggio',
-	\ 'Tagbar',
-	\ 'Python-mode-klen',
-	\ 'mru',
-	\ 'DrawIt',
-	\ 'JavaScript_syntax',
-	\ 'Javascript_Indentation',
-	\ 'JSON',
-	\ 'jslint',
-	\ 'jsbeautify',
-	\ 'fcitx',
-	\ 'xml',
-	\ 'DoxygenToolkit',
-	\ 'AutoComplPop',
-	\ 'L9',
-	\ ]
+    \ 'surround',
+    \ 'gitv',
+    \ 'vimwiki',
+    \ 'The_NERD_Commenter',
+    \ 'repeat',
+    \ 'github:altercation/vim-colors-solarized',
+    \ 'ZenCoding',
+    \ 'snipmate-snippets',
+    \ 'Mark%2666',
+    \ 'delimitMate',
+    \ 'Better_CSS_Syntax_for_Vim',
+    \ 'EasyMotion',
+    \ 'arpeggio',
+    \ 'Tagbar',
+    \ 'mru',
+    \ 'DrawIt',
+    \ 'JavaScript_syntax',
+    \ 'Javascript_Indentation',
+    \ 'JSON',
+    \ 'jsbeautify',
+    \ 'xml',
+    \ 'DoxygenToolkit',
+    \ 'L9',
+    \ 'info',
+    \ 'plantuml-syntax',
+    \ 'fcitx',
+    \ 'VOoM',
+    \ 'AutoComplPop',
+    \ 'Python-mode-klen',
+    \ 'pig',
+    \ 'jinja',
+    \ 'vim-qt-syntax',
+    \ 'github:peterhoeg/vim-qml'
+    \ ]
 
+	"\ 'pylint'
+	""\ 'jslint',
+	"\ 'UltiSnips',
+	"\ 'snipmate',
+	"\ 'neocomplcache',
+	"" below will block the fcitx open
 	"\ 'pyflakes%2441',
 	"\ 'python%790',
-	"\ 'github:cosmoslx/fcitx-status', "can't enter back to chines mode"
+	"\ 'fcitx',
+	"\ 'github:cosmoslx/fcitx-status', "can't enter back to chinese mode"
     
 " activate the plugins
 call vam#ActivateAddons(cosmoslx_plugins, {'auto_install' : 0})
 
 " set g:vim_addon_manager must after the call vam#ActivateAddons 
-	" don't use mercurial
+	""--- don't use mercurial
 	"let g:vim_addon_manager['drop_hg_sources'] = 1
 
 
@@ -200,10 +253,8 @@ call vam#ActivateAddons(cosmoslx_plugins, {'auto_install' : 0})
 "	zencoding 
 "--------------------------------------
 let g:use_zen_complete_tag = 1
-let g:user_zen_expandabbr_key = '<C-j>'
-
+"let g:user_zen_expandabbr_key = '<C-k>'
 "let g:user_zen_leader_key = '<C-j>'
-
 
 "--------------------------------------
 "	arpeggio 
@@ -219,14 +270,46 @@ call arpeggio#map('ivc', '', 0, 'jk', '<ESC>')
 "--------------------------------------
 "	code complete 
 "--------------------------------------
-
 "let g:completekey = "<C-d>"
-
 
 "--------------------------------------
 "	neocomplcache 
 "--------------------------------------
 
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache at startup.
+let g:neocomplcache_enable_at_startup = 0
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+" Define dictionary.
+"let g:neocomplcache_dictionary_filetype_lists = {
+    "\ 'default' : '',
+    "\ 'vimshell' : $HOME.'/.vimshell_hist',
+    "\ 'scheme' : $HOME.'/.gosh_completions'
+    "\ }
 
 "--------------------------------------
 "	solarized colorscheme 
@@ -237,15 +320,16 @@ if has('gui_running')
 	colorscheme solarized
 else
     set background=dark
-	colorscheme evening
+	colorscheme desert
 endif
 
 let g:solarized_contrast="high"    "default value is normal
 let g:solarized_visibility="high"    "default value is normal
 syntax enable
-" ------------------------------------------------------------------
-" The following items are available options, but do not need to be
-" included in your .vimrc as they are currently set to their defaults.
+
+""------------------------------------------------------------------
+""The following items are available options, but do not need to be
+""included in your .vimrc as they are currently set to their defaults.
 
 " let g:solarized_termtrans=0
 " let g:solarized_degrade=0
@@ -261,7 +345,7 @@ syntax enable
 "	vimwiki setting 
 "--------------------------------------
 let g:vimwiki_use_mouse=1
-let g:vimwiki_list=[{'path': '/home/cosmoslx/github/vimwiki/', 'path_html': '/home/cosmoslx/github/vimwiki/html','nested_syntaxes':{'python': 'python','c++': 'cpp','c': 'c','sh': 'sh','awk': 'awk','django': 'django','html': 'html','javascript': 'javascript','json': "javascript"}}]
+let g:vimwiki_list=[{'path': '/home/cosmoslx/resource/kbase/', 'path_html': '/home/cosmoslx/resource/kbase/html','nested_syntaxes':{'python': 'python','c++': 'cpp','c': 'c','sh': 'sh','awk': 'awk','django': 'django','html': 'html','javascript': 'javascript','json': "javascript",'sql': "sql"}}]
 let g:vimwiki_folding=0 
 let g:vimwiki_camel_case=0 
 let g:vimwiki_CJK_length=1 
@@ -301,7 +385,7 @@ let Tlist_WinWidth=20
 "	cscope setting 
 "--------------------------------------
 
-" from http://cscope.sourceforge.net/cscope_maps.vim
+""from http://cscope.sourceforge.net/cscope_maps.vim
 
 if has("cscope")
     " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
@@ -364,3 +448,15 @@ let g:DoxygenToolkit_licenseTag="GPL"
 
 
 
+"--------------------------------------
+"	pylint	
+"--------------------------------------
+"autocmd FileType python compiler pylint
+let g:pymode_lint_write = 0 
+nnoremap <leader>p :PyLint<cr> 
+
+
+"--------------------------------------
+"	cmj temp 20130712	
+"--------------------------------------
+set foldlevel=99

@@ -1,0 +1,5 @@
+if [ -f /home/cosmoslx/workspace/distributed_big_data/soft/hadoop-vars.sh ] ; then
+	source /home/cosmoslx/workspace/distributed_big_data/soft/hadoop-vars.sh
+fi
+
+export PATH="$PATH:/home/cosmoslx/tools"
