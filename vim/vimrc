@@ -201,8 +201,8 @@ let cosmoslx_plugins = [
     \ 'The_NERD_Commenter',
     \ 'repeat',
     \ 'github:altercation/vim-colors-solarized',
-    \ 'ZenCoding',
-    \ 'snipmate-snippets',
+    \ 'Emmet',
+    \ 'vim-snippets',
     \ 'Mark%2666',
     \ 'delimitMate',
     \ 'Better_CSS_Syntax_for_Vim',
@@ -242,7 +242,7 @@ let cosmoslx_plugins = [
 	"\ 'github:cosmoslx/fcitx-status', "can't enter back to chinese mode"
     
 " activate the plugins
-call vam#ActivateAddons(cosmoslx_plugins, {'auto_install' : 0})
+call vam#ActivateAddons(cosmoslx_plugins, {'auto_install' : 1})
 
 " set g:vim_addon_manager must after the call vam#ActivateAddons 
 	""--- don't use mercurial
