@@ -223,14 +223,15 @@ let cosmoslx_plugins = [
     \ 'fcitx',
     \ 'VOoM',
     \ 'AutoComplPop',
-    \ 'Python-mode-klen',
     \ 'pig',
     \ 'jinja',
     \ 'vim-qt-syntax',
-    \ 'github:peterhoeg/vim-qml'
+    \ 'github:peterhoeg/vim-qml',
+    \ 'Vimerl'
     \ ]
 
 	"\ 'pylint'
+    "\ 'Python-mode-klen',
 	""\ 'jslint',
 	"\ 'UltiSnips',
 	"\ 'snipmate',
