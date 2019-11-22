@@ -197,7 +197,6 @@ call SetupVAM()
 let cosmoslx_plugins = [
     \ 'surround',
     \ 'gitv',
-    \ 'vimwiki',
     \ 'The_NERD_Commenter',
     \ 'repeat',
     \ 'github:altercation/vim-colors-solarized',
@@ -217,19 +216,20 @@ let cosmoslx_plugins = [
     \ 'jsbeautify',
     \ 'xml',
     \ 'DoxygenToolkit',
-    \ 'L9',
     \ 'info',
     \ 'plantuml-syntax',
-    \ 'fcitx',
-    \ 'VOoM',
-    \ 'AutoComplPop',
-    \ 'pig',
-    \ 'jinja',
-    \ 'vim-qt-syntax',
-    \ 'github:peterhoeg/vim-qml',
-    \ 'Vimerl'
     \ ]
 
+    "\ 'AutoComplPop',
+    "\ 'VOoM',
+    "\ 'pig',
+    "\ 'jinja',
+    "\ 'vim-qt-syntax',
+    "\ 'github:peterhoeg/vim-qml',
+    "\ 'Vimerl'
+    "\ 'vimwiki',
+    "\ 'fcitx',
+    "\ 'L9',
 	"\ 'pylint'
     "\ 'Python-mode-klen',
 	""\ 'jslint',
